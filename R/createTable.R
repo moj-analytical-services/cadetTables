@@ -5,20 +5,26 @@ createTable <- function(table_name,env="dev",run_time="2025-04-29T19:16:55",gith
 
     afvalues <- list(tab_title = list(), table_title = list(), source = list(),table=list())
 
+    contents_df <- data.frame(
+      "Sheet name" = c("Notes"),
+      "Sheet title" = c(
+        "Notes used in this workbook"
+      ),
+      check.names = FALSE
+    )
+
     for (i in 1:length(table_name)) {
 
-    data <- getTable(table_name,env)
+    data <- getTable(table_name[i],env)
 
-    meta <- getManifest(table_name,env,run_time,github_action_name)
+    meta <- getManifest(table_name[i],env,run_time,github_action_name)
 
-    contents_df <- data.frame(
-        "Sheet name" = c("Notes", meta$meta$tab_title),
-        "Sheet title" = c(
-            "Notes used in this workbook",
-            meta$description
-        ),
-        check.names = FALSE
-    )
+    new_contents <- data.frame( "Sheet name" = meta$meta$tab_title,
+                                "Sheet title" = meta$description)
+
+    names(new_contents) <- names(contents_df)
+
+    contents_df <- rbind(contents_df,new_contents)
 
     table <- renameColumns(data,meta)
 
@@ -35,7 +41,7 @@ createTable <- function(table_name,env="dev",run_time="2025-04-29T19:16:55",gith
 
     aft <- aftables::create_aftable(
         tab_titles = c("Cover","Contents","Notes",afvalues$tab_title),
-        sheet_types = c("cover", "contents", "notes", "tables"),
+        sheet_types = c("cover", "contents", "notes", rep("tables",length(table_name))),
         sheet_titles = c("Cover","Contents","Notes",afvalues$table_title),
         sources = c(
             rep(NA_character_, 3),
@@ -45,7 +51,13 @@ createTable <- function(table_name,env="dev",run_time="2025-04-29T19:16:55",gith
 
     wb <- aftables::generate_workbook(aft)
 
-    wb <- formatNumbers(wb,meta)
+    for (i in 1:length(table_name)) {
+
+    meta <- getManifest(table_name[i],env,run_time,github_action_name)
+
+    wb <- formatNumbers(wb,meta,i+3)
+
+    }
 
     return(wb)
 

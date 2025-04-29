@@ -1,9 +1,8 @@
 #' @export
-formatNumbers <- function(wb,meta) {
+formatNumbers <- function(wb,meta,k) {
 
     nsheets <- length(names(wb))
 
-    for (k in 4:nsheets) {
 
         df <- openxlsx::read.xlsx(wb, sheet = k, colNames = FALSE)
 
@@ -57,7 +56,7 @@ formatNumbers <- function(wb,meta) {
             }
         }
 
-    }
+
 
     return(wb)
 

@@ -1,5 +1,5 @@
 #' @export
-createTable <- function(table_name,env="dev",run_time="2025-04-29T19:16:55",github_action_name,
+createTable <- function(table_name,env="dev",run_time="2025-05-06T08:50:12",github_action_name,
                         cover_table = aftables::demo_aftable$table[[1]],
                         notes_table = aftables::demo_aftable$table[[3]]) {
 

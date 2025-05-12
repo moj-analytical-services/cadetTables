@@ -1,4 +1,3 @@
-#' @export
 getManifest <- function(table_name,env="prod",run_time,github_action_name="deploy-daily") {
 
     path <- if (env=="dev") {

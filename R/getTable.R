@@ -1,4 +1,3 @@
-#' @export
 getTable <- function(table_name, env="prod") {
 
     table_name_env <- if (env == "dev") { gsub("__", "_dev_dbt__", table_name) } else table_name

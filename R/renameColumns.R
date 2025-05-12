@@ -1,4 +1,3 @@
-#' @export
 renameColumns <- function(table,metadata) {
 
     df <- table

@@ -1,4 +1,3 @@
-#' @export
 formatNumbers <- function(wb,meta,k) {
 
     nsheets <- length(names(wb))
